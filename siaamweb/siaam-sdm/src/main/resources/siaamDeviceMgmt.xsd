@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://siaam.com/sdm/device" targetNamespace="http://siaam.com/sdm/device"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns:common="http://siaam.com/sdm/common">
+
+	<xsd:import namespace="http://siaam.com/sdm/common"
+		schemaLocation="siaamCommon.xsd" />
+
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			Device domain objects
+			defined for siaam
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:complexType name="Device">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Device Object
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="deviceId" type="xsd:string" />
+			<xsd:element minOccurs="0" name="typeName" type="xsd:string" />
+			<xsd:element minOccurs="0" name="category" type="xsd:string" />
+			<xsd:element minOccurs="0" name="family" type="xsd:string" />
+			<xsd:element minOccurs="0" name="version" type="xsd:string" />
+			<xsd:element minOccurs="0" name="os" type="xsd:string" />
+			<xsd:element minOccurs="0" name="ip" type="xsd:string" />
+			<xsd:element minOccurs="0" name="location" type="xsd:string" />
+			<xsd:element minOccurs="0" name="userAgent" type="xsd:string" />
+			<xsd:element minOccurs="0" name="auditgroup" type="common:auditSet" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="UserDevice">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				User Device Object
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="guid" type="xsd:string" />
+			<xsd:element minOccurs="0" name="deviceId" type="xsd:string" />
+			<xsd:element minOccurs="0" name="auditgroup" type="common:auditSet" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

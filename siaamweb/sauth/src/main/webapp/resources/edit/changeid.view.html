@@ -1,0 +1,19 @@
+<div class="col-md-6 col-md-offset-3">
+    <h2>Change your id</h2>
+    <form name="form" ng-submit="vm.changeId()" role="form">
+        <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
+            <label for="username">Current Username</label>
+            <input type="text" name="username" id="username" class="form-control" ng-model="vm.username" required />
+            <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Please enter your current Username</span>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': form.newusername.$dirty && form.newusername.$error.required }">
+            <label for="username">New Username</label>
+            <input type="text" name="newusername" id="newusername" class="form-control" ng-model="vm.newusername" required />
+            <span ng-show="form.newusername.$dirty && form.newusername.$error.required" class="help-block">Please enter your new Username</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="form.$invalid || vm.dataLoading" class="btn btn-primary">Update Username</button>
+            <a href="#/" class="btn btn-link">Cancel</a>
+        </div>
+    </form>
+</div>

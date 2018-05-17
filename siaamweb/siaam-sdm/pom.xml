@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.siaam</groupId>
+	<artifactId>siaam-sdm</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+	<properties>
+		<axiom.version>1.2.9</axiom.version>
+		<siaam-parent.version>1.0.0-SNAPSHOT</siaam-parent.version>
+	</properties>
+	
+	<parent>
+		<groupId>com.siaam</groupId>
+		<artifactId>siaam-parent-pom</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	 
+	<dependencyManagement>
+	<dependencies>
+		<!--
+		<dependency>
+			<groupId>com.siaam</groupId>
+			<artifactId>siaam-parent-pom</artifactId>
+			<version>${siaam-parent.version}</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		-->
+	</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>0.12.3</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>

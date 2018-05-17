@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee" 
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	   		http://www.springframework.org/schema/aop
+			http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+			http://www.springframework.org/schema/context
+	   		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+			http://www.springframework.org/schema/mvc  
+			http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- Activates various annotations to be detected in bean classes -->
+	<context:annotation-config />
+	 
+	<context:property-placeholder location="classpath:config/siaam.properties.local"/>
+	  
+	<!-- Scans the classpath for annotated components that will be auto-registered as Spring beans.
+	 For example @Controller and @Service. Make sure to set the correct base-package-->
+	<context:component-scan base-package="com.siaam.auth" />
+	
+	<!-- Configures the annotation-driven Spring MVC Controller programming model.
+	Note that, with Spring 3.0, this tag works in Servlet MVC only!  -->
+	<mvc:annotation-driven /> 
+	
+	<import resource="classpath:siaam-token-mgmt.xml"/>
+	
+	<bean id="customAuthenticationProvider" class="com.siaam.auth.handler.SiaamAuthenticationProvider" />
+	<bean id="userDao" class="com.siaam.auth.dao.impl.UserDaoImpl"/>
+	<bean id="userCredentialsDao" class="com.siaam.auth.dao.impl.UserCredentialsDaoImpl"/>
+	<bean id="siaamUserSo" class="com.siaam.auth.service.impl.SiaamUserSOImpl"/>
+	<bean id="siaamUserOperationsSO" class="com.siaam.auth.service.impl.SiaamUserOperationsSOImpl"/>
+	
+	<bean id="tokenService" class="com.siaam.auth.token.TokenService">
+		<property name="tokenHandler" ref="rsaTokenHandler" />
+		<property name="tokenConfigMap">
+			<map>
+				<entry key="authentication" value-ref="authTokenConfig" />
+				<entry key="resetPwd" value-ref="resetPwdTokenConfig" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="resetPwdTokenConfig" class="com.siaam.auth.token.impl.rsa.RSATokenConfig">
+		 <constructor-arg type="long" value="${rsa.token.expiry.reset.pwd}"/>
+		 <constructor-arg type="java.lang.String" value="${rsa.token.modulus.reset.pwd}"/>
+		 <constructor-arg type="java.lang.String" value="${rsa.token.publicExponent.reset.pwd}"/>
+		 <constructor-arg type="java.lang.String" value="${rsa.token.privateExponent.reset.pwd}"/>
+	</bean>
+	
+	<bean id="authTokenConfig" class="com.siaam.auth.token.impl.rsa.RSATokenConfig">
+		<constructor-arg type="long" value="${rsa.token.expiry.auth}"/>
+		<constructor-arg type="java.lang.String" value="${rsa.token.modulus.auth}"/>
+		<constructor-arg type="java.lang.String" value="${rsa.token.publicExponent.auth}"/>
+		<constructor-arg type="java.lang.String" value="${rsa.token.privateExponent.auth}"/>
+	</bean>
+	
+	<!-- SET default mail properties -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${mail.host}"/>
+        <property name="port" value="${mail.port}"/>
+        <property name="username" value="${mail.username}"/>
+        <property name="password" value="${mail.password}"/>
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.transport.protocol">${mail.transport.protocol}</prop>
+                <prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+                <prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+                <prop key="mail.debug">${mail.debug}</prop>
+            </props>
+        </property>
+    </bean>
+     
+    <!-- You can have some pre-configured messagess also which are ready to send -->
+    <bean id="preConfiguredMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="to" value="${mail.to}"></property>
+        <property name="from" value="${mail.from}"></property>
+        <property name="subject" value="${mail.subject}"/>
+    </bean>
+</beans>
+

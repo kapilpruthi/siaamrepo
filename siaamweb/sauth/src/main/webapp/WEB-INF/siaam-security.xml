@@ -1,0 +1,77 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 
+	http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+
+	<beans:import resource="siaam-auth-base.xml" />
+	<beans:import resource="siaam-oAuth.xml" />
+
+	<!-- START## REST specific configuration based on a URI pattern -->
+	<http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint"
+		pattern="/ws/**">
+		<intercept-url pattern="/ws/loginws" access="permitAll" />
+		<intercept-url pattern="/ws/public" access="permitAll" />
+		<intercept-url pattern="/ws/user/admin" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/ws/safe/*" access="hasRole('ROLE_USER')" />
+		<intercept-url pattern="/ws/user/edit/*" access="hasRole('ROLE_USER')" />
+		
+		<custom-filter position="FORM_LOGIN_FILTER" ref="restAuthenticationFilter" />
+		<custom-filter position="PRE_AUTH_FILTER" ref="ssoFilter" />
+		<logout invalidate-session="true" logout-url="/ws/logout"
+			delete-cookies="XSRF-TOKEN" success-handler-ref="logoutSuccessHandler" />
+		<custom-filter ref="csrfHeaderFilter" after="CSRF_FILTER" />
+	</http>
+	
+	<http use-expressions="true" entry-point-ref="restAuthenticationEntryPoint"
+		pattern="/oauth/**">
+		<intercept-url pattern="/oauth/*" access="hasRole('ROLE_USER')" />
+		<custom-filter position="FORM_LOGIN_FILTER" ref="restAuthenticationFilter" />
+		<custom-filter position="PRE_AUTH_FILTER" ref="ssoFilter" />
+		<logout invalidate-session="true" logout-url="/ws/logout"
+			delete-cookies="XSRF-TOKEN" success-handler-ref="logoutSuccessHandler" />
+		<custom-filter ref="csrfHeaderFilter" after="CSRF_FILTER" />
+	</http>
+	<!-- END## REST specific configuration based on a URI pattern -->
+
+	<beans:bean id="csrfHeaderFilter" class="com.siaam.auth.filter.CsrfHeaderFilter" />
+	<beans:bean id="csrfTokenRepository"
+		class="org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository">
+		<beans:property name="headerName" value="X-XSRF-TOKEN" />
+	</beans:bean>
+
+	<!-- Custom Bean to handle logout -->
+	<beans:bean id="logoutSuccessHandler" class="com.siaam.auth.handler.LogoutSuccessHandler">
+		<beans:constructor-arg value="/resources/index.html#/login" />
+	</beans:bean>
+
+	<!-- For REST WS, AuthenticationFilter -->
+	<beans:bean id="restAuthenticationFilter"
+		class="com.siaam.auth.filter.RESTUsernamePasswordAuthenticationFilter"
+		p:authenticationManager-ref="authenticationManager"
+		p:authenticationFailureHandler-ref="restAuthenticationFailureHandler"
+		p:authenticationSuccessHandler-ref="restAuthenticationSuccessHandler" />
+
+	<!-- REST SuccessHandler - Unlike UI, Return 200 instead of 301 -->
+	<beans:bean id="restAuthenticationSuccessHandler"
+		class="com.siaam.auth.handler.SiaamRESTAuthenticationSuccessHandler" />
+
+	<!-- REST FailureHandler - Unlike UI, Return 401 instead of 301 -->
+	<beans:bean id="restAuthenticationFailureHandler"
+		class="com.siaam.auth.handler.SiaamRESTAuthenticationFailureHandler" />
+	<!-- END## Custom WS filters for username and password. The real customization 
+		is done in the customAthenticationManager -->
+
+	<!-- START## WS AuthenticationEntryPoint -->
+	<!-- The REST AuthenticationEntryPoint is responsible for returning 401, 
+		whenever the server sends back a response requiring authentication -->
+	<beans:bean id="restAuthenticationEntryPoint"
+		class="com.siaam.auth.handler.SiaamRESTAuthenticationEntryPoint" />
+	<!-- END## WS AuthenticationEntryPoint -->
+
+</beans:beans>

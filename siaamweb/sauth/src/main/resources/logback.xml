@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- Appenders -->
+	<!-- <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender"> 
+		<encoder> <Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg 
+		%n </Pattern> </encoder> <filter class="ch.qos.logback.classic.filter.ThresholdFilter"> 
+		<level>INFO</level> </filter> </appender> -->
+	<appender name="dailyInfoRollingFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>/tmp/logs/siaam-info.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<FileNamePattern>siaam-info.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n
+			</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="dailyDebugRollingFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>/tmp/logs/siaam-debug.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<FileNamePattern>siaam-debug.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n
+			</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="dailyErrorRollingFileAppender"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>/tmp/logs/siaam-error.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover -->
+			<FileNamePattern>siaam-error.%d{yyyy-MM-dd}.log</FileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n
+			</Pattern>
+		</encoder>
+	</appender>
+
+
+	<!-- Application Loggers -->
+	<logger name="com.siaam" additivity="false" level="INFO">
+		<appender-ref ref="dailyInfoRollingFileAppender" />
+		<!-- <appender-ref ref="consoleAppender" /> -->
+	</logger>
+
+	<!-- Root Logger -->
+	<root level="error">
+		<appender-ref ref="dailyErrorRollingFileAppender" />
+	</root>
+
+</configuration>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<context:property-placeholder
+		location="classpath:config/siaam-token-mgmt.properties" />
+
+	<!-- Scans within the base package of the application for @Component classes 
+		to configure as beans -->
+	<context:component-scan base-package="com.siaam" />
+	<context:annotation-config />
+
+	<bean id="rsaTokenHandler" class="com.siaam.auth.token.impl.rsa.RSATokenHandler" />
+	<bean id="rsaTokenService" class="com.siaam.auth.token.TokenService">
+		<property name="tokenHandler" ref="rsaTokenHandler" />
+		<property name="tokenConfigMap">
+			<map>
+				<entry key="authentication" value-ref="authTokenConfig" />
+				<entry key="resetPwd" value-ref="resetPwdTokenConfig" />
+			</map>
+		</property>
+	</bean>
+
+
+	<bean id="resetPwdTokenConfig" class="com.siaam.auth.token.impl.rsa.RSATokenConfig">
+		<constructor-arg type="long" value="${rsa.token.expiry.reset.pwd}" />
+		<constructor-arg type="java.lang.String" value="${rsa.token.modulus.reset.pwd}" />
+		<constructor-arg type="java.lang.String"
+			value="${rsa.token.publicExponent.reset.pwd}" />
+		<constructor-arg type="java.lang.String"
+			value="${rsa.token.privateExponent.reset.pwd}" />
+	</bean>
+
+	<bean id="authTokenConfig" class="com.siaam.auth.token.impl.rsa.RSATokenConfig">
+		<constructor-arg type="long" value="${rsa.token.expiry.auth}" />
+		<constructor-arg type="java.lang.String" value="${rsa.token.modulus.auth}"/>
+		<constructor-arg type="java.lang.String" value="${rsa.token.publicExponent.auth}" />
+		<constructor-arg type="java.lang.String"
+			value="${rsa.token.privateExponent.auth}"/>
+	</bean>
+
+</beans>

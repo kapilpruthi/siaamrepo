@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://siaam.com/sdm/auth" targetNamespace="http://siaam.com/sdm/auth"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	xmlns:common="http://siaam.com/sdm/common">
+
+	<xsd:import namespace="http://siaam.com/sdm/common"
+		schemaLocation="siaamCommon.xsd" />
+
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">
+			Base auth domain objects defined for siaam
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:element name="user" type="User" />
+
+	<xsd:element name="comment" type="xsd:string" />
+
+	<xsd:complexType name="User">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				Base User Object
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element minOccurs="0" name="onlineId" type="xsd:string" />
+			<xsd:element minOccurs="0" name="guid" type="xsd:string" />
+			<xsd:element minOccurs="0" name="role" type="xsd:string" />
+			<xsd:element minOccurs="0" name="enabled" type="xsd:boolean" />
+			<xsd:element minOccurs="0" name="onlineIdStatCd" type="xsd:string" />
+			<xsd:element minOccurs="0" name="password" type="xsd:string" />
+			<xsd:element minOccurs="0" name="passwordAlgo" type="xsd:string" />
+			<xsd:element minOccurs="0" name="passwordStatus" type="xsd:string" />
+			<xsd:element minOccurs="0" name="passwordLockoutCnt"
+				type="xsd:int" />
+			<xsd:element minOccurs="0" name="passwordExpDate" type="xsd:dateTime" />
+			<xsd:element minOccurs="0" name="lastLoginTs" type="xsd:dateTime" />
+			<xsd:element minOccurs="0" name="howAdded" type="xsd:string" />
+			<xsd:element minOccurs="0" name="openDate" type="xsd:dateTime" />
+			<xsd:element minOccurs="0" name="closeDate" type="xsd:dateTime" />
+			<xsd:element minOccurs="0" name="firstName" type="xsd:string" />
+			<xsd:element minOccurs="0" name="lastName" type="xsd:string" />
+			<xsd:element minOccurs="0" name="email" type="xsd:string" />
+			<xsd:element minOccurs="0" name="auditgroup" type="common:auditSet" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

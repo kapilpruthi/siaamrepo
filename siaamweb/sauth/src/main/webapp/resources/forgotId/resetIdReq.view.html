@@ -1,0 +1,14 @@
+<div class="col-md-6 col-md-offset-3">
+    <h2>Forgot Your Id?</h2>
+    <form name="formId" ng-submit="vm.resetIdReq()" role="form">
+        <div class="form-group" ng-class="{ 'has-error': formId.email.$dirty && formId.email.$error.required }">
+            <label for="username">Email</label>
+            <input type="text" name="email" id="Text1" class="form-control" ng-model="vm.email" required />
+            <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block">Email is required</span>
+        </div>
+        <div class="form-actions">
+            <button type="submit" ng-disabled="formId.$invalid || vm.dataLoading" class="btn btn-primary">Send Email</button>
+       		<a href="#/login" class="btn btn-link">Login</a>
+        </div>
+    </form>
+</div>

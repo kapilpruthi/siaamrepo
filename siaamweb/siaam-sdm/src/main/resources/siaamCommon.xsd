@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://siaam.com/sdm/common" targetNamespace="http://siaam.com/sdm/common"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	>
+
+  <xsd:annotation>
+    <xsd:documentation xml:lang="en">
+     Common domain objects defined for siaam
+    </xsd:documentation>
+  </xsd:annotation>
+
+  <xsd:element name="cipherData" type="CipherData"/>
+
+  <xsd:element name="comment" type="xsd:string"/>
+
+  <xsd:complexType name="CipherData">
+    <xsd:annotation>
+	    <xsd:documentation xml:lang="en">
+	     	Common object that contains cipher data, e.g. encrypted data or message digested data 
+	    </xsd:documentation>
+	</xsd:annotation>
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="algorithm" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="keyName" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="iv" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="cipherValue" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+<xsd:complexType name="auditSet">
+    <xsd:annotation>
+	    <xsd:documentation xml:lang="en">
+	     	Common object that contains audit fields createdBy, createdTS, updatedBy, updatedTs, siteId
+	    </xsd:documentation>
+	</xsd:annotation>
+    <xsd:sequence>
+     <xsd:element minOccurs="0" name="createdBy" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="createdTs" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="updatedBy" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="updatedTs" type="xsd:dateTime"/>
+      <xsd:element minOccurs="0" name="siteId" type="xsd:string"/>
+     </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
