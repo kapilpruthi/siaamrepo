@@ -13,7 +13,7 @@
 		<org.slf4j-version>1.7.12</org.slf4j-version>
 		<jackson.version>2.9.10.1</jackson.version>
 		<version.jboss.maven.plugin>7.6.Final</version.jboss.maven.plugin>
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<mysql-connector-java.version>5.1.36</mysql-connector-java.version>
 		<httpclient.version>4.5</httpclient.version>
 		<jaxb.version>2.2.12</jaxb.version>
