@@ -15,7 +15,7 @@
 		<version.jboss.maven.plugin>7.6.Final</version.jboss.maven.plugin>
 		<junit.version>4.11</junit.version>
 		<mysql-connector-java.version>5.1.36</mysql-connector-java.version>
-		<httpclient.version>4.5</httpclient.version>
+		<httpclient.version>4.5.13</httpclient.version>
 		<jaxb.version>2.2.12</jaxb.version>
 		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 		<sdm.version>1.0.0-SNAPSHOT</sdm.version>
